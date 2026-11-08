@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CartPilot — the purchasing agent with a mandate</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">CP</div>
+        <div>
+          <h1>CartPilot</h1>
+          <p class="tagline">An AI purchasing agent that negotiates, obeys your budget mandate, and pays with PayPal.</p>
+        </div>
+      </div>
+      <div class="badges">
+        <span id="paypal-badge" class="badge">PayPal: …</span>
+        <span id="llm-badge" class="badge badge-alt">Planner: …</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="col">
+        <div class="card">
+          <h2>1 · Your mandate</h2>
+          <p class="hint">The agent may never break these rules. Anything outside them is blocked or held for your approval.</p>
+          <label>Total budget cap (USD)
+            <input id="m-budget" type="number" min="1" step="1" />
+          </label>
+          <label>Auto-approve limit (USD) <span class="hint-inline">— above this, the agent asks you first</span>
+            <input id="m-auto" type="number" min="0" step="1" />
+          </label>
+          <fieldset>
+            <legend>Allowed categories</legend>
+            <div id="m-categories" class="checks"></div>
+          </fieldset>
+          <button id="m-save" class="btn secondary">Save mandate</button>
+          <span id="m-saved" class="saved"></span>
+        </div>
+
+        <div class="card">
+          <h2>2 · Give your agent a goal</h2>
+          <textarea id="goal" rows="3" placeholder="e.g. Buy 2 bags of coffee and paper towels for the office, under $60"></textarea>
+          <div class="chips">
+            <button class="chip" data-goal="Buy 2 bags of coffee and paper towels for the office, under $60">Coffee run · under $60</button>
+            <button class="chip" data-goal="Stock up: 3 sets of mugs and 2 packs of notebooks for the new starters">New-starter stock-up</button>
+            <button class="chip" data-goal="Get cleaning supplies: surface spray and hand soap">Cleaning supplies</button>
+            <button class="chip" data-goal="Buy a desk lamp and a wireless mouse, under $40">Lamp + mouse · under $40 (watch it refuse to overspend)</button>
+          </div>
+          <button id="run-btn" class="btn primary">Run the agent</button>
+        </div>
+
+        <div class="card" id="ledger-card">
+          <h2>Ledger</h2>
+          <div id="ledger-body" class="hint">No completed purchases yet.</div>
+        </div>
+      </section>
+
+      <section class="col col-wide">
+        <div class="card">
+          <h2>3 · Watch it work</h2>
+          <div id="status-line" class="status-line">Idle. Set a mandate, give a goal, and run the agent.</div>
+          <ol id="trace" class="trace"></ol>
+        </div>
+
+        <div class="card" id="cart-card" hidden>
+          <h2>The cart it built</h2>
+          <table class="cart">
+            <thead>
+              <tr><th>Item</th><th>Seller</th><th>Qty</th><th>List</th><th>Negotiated</th><th>Total</th></tr>
+            </thead>
+            <tbody id="cart-body"></tbody>
+            <tfoot id="cart-foot"></tfoot>
+          </table>
+        </div>
+
+        <div class="card" id="pay-card" hidden>
+          <h2>4 · PayPal checkout</h2>
+          <div id="pay-body"></div>
+          <div class="pay-actions">
+            <button id="mandate-approve-btn" class="btn primary" hidden>Approve this purchase (mandate)</button>
+            <a id="approve-link" class="btn primary" href="#" target="_blank" rel="noopener" hidden>Approve on PayPal</a>
+            <button id="buyer-approve-btn" class="btn primary" hidden>Simulate buyer approval</button>
+            <button id="capture-btn" class="btn success" hidden>Capture payment</button>
+          </div>
+          <div id="receipt" class="receipt" hidden></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      CartPilot · PayPal AI Hackathon · Sandbox only — no real money moves. Seller floor prices are never shown to the agent or the buyer.
+    </footer>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
